@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-from utils.locators import LoginPageLocators, InventoryPageLocators
+from utils.locators import LoginPageLocators, InventoryPageLocators, CartPageLocators
 
 
 BASE_URL = "https://www.saucedemo.com"
@@ -65,3 +65,34 @@ def test_navegacion_catalogo(driver):
     
     assert nombre != "", "El primer producto no tiene nombre"
     assert precio != "", "El primer producto no tiene precio"
+
+def test_interaccion_carrito(driver):
+    """
+    Prueba añadir un producto al carrito.
+    Criterios mínimos:
+    - Agrega primer producto.
+    - Verifica ítem en carrito (contador).
+    - Navega al carrito y comprueba que esté allí.
+    """
+  
+    driver.get(BASE_URL)
+    driver.find_element(*LoginPageLocators.USERNAME_INPUT).send_keys("standard_user")
+    driver.find_element(*LoginPageLocators.PASSWORD_INPUT).send_keys("secret_sauce")
+    driver.find_element(*LoginPageLocators.LOGIN_BUTTON).click()
+    
+   
+    driver.find_element(*InventoryPageLocators.ADD_TO_CART_FIRST_ITEM).click()
+    
+   
+    contador = driver.find_element(*CartPageLocators.CART_BADGE).text
+    assert contador == "1", "El contador del carrito no marcó '1'"
+    
+  
+    driver.find_element(*CartPageLocators.CART_LINK).click()
+    
+ 
+    WebDriverWait(driver, 10).until(EC.url_contains("/cart.html"))
+    
+
+    items_en_carrito = driver.find_elements(*CartPageLocators.CART_ITEM)
+    assert len(items_en_carrito) == 1, "El ítem no se añadió al carrito"

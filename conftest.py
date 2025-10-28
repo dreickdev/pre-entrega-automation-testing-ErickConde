@@ -1,13 +1,22 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager 
 
 @pytest.fixture(scope="function")
 def driver():
-    Service = Service(ChromeDriverManager().install())
-    navedador = webdriver.Chrome(service=Service)
-    navedador.implicitly_wait(5)
-    yield navedador
-    print=("Cerrando el navegador..")
-    navedador.quit()
+    """
+    Esta fixture crea y configura el driver de Firefox
+    antes de cada test y lo cierra después.
+    """
+   
+    service = Service(GeckoDriverManager().install())
+    
+    
+    navegador = webdriver.Firefox(service=service) 
+    
+    navegador.implicitly_wait(5)
+   
+    yield navegador
+    
+    navegador.quit()

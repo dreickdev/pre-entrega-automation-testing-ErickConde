@@ -1,23 +1,13 @@
-import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-
-@pytest.fixture(scope="function")
-def driver():
-    Service = Service(ChromeDriverManager().install())
-    navedador = webdriver.Chrome(service=Service)
-    navedador.implicitly_wait(5)from selenium.webdriver.common.by import By
-
+from selenium.webdriver.common.by import By
 
 class LoginPageLocators:
-    """Localizadores de la página de Login"""
+   
     USERNAME_INPUT = (By.ID, "user-name")
     PASSWORD_INPUT = (By.ID, "password")
     LOGIN_BUTTON = (By.ID, "login-button")
     
 class InventoryPageLocators:
-    """Localizadores de la página de Inventario (Productos)"""
+   
     PAGE_TITLE = (By.CLASS_NAME, "title") 
     INVENTORY_ITEMS = (By.CLASS_NAME, "inventory_item") 
     FIRST_ITEM_NAME = (By.XPATH, "(//div[@class='inventory_item_name'])[1]")
@@ -26,9 +16,6 @@ class InventoryPageLocators:
 
 class CartPageLocators:
     """Localizadores del Carrito y Header"""
-    CART_BADGE = (By.CLASS_NAME, "shopping_cart_badge") 
-    CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
+    CART_BADGE = (By.CLASS_NAME, "shopping_cart_badge")
+    CART_LINK = (By.CLASS_NAME, "shopping_cart_link") 
     CART_ITEM = (By.CLASS_NAME, "cart_item") 
-    yield navedador
-    print=("Cerrando el navegador..")
-    navedador.quit()
