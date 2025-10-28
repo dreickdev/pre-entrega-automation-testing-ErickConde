@@ -36,3 +36,32 @@ def test_login_exitoso(driver):
     
     titulo_productos = driver.find_element(*InventoryPageLocators.PAGE_TITLE).text
     assert titulo_productos == "Products", "El título 'Products' no se encontró"
+ 
+def test_navegacion_catalogo(driver):
+    """
+    Prueba la navegación del catálogo.
+    Criterios mínimos:
+    - Valida título.
+    - Valida presencia de productos.
+    - Lista nombre/precio del primero.
+    """
+
+    driver.get(BASE_URL)
+    driver.find_element(*LoginPageLocators.USERNAME_INPUT).send_keys("standard_user")
+    driver.find_element(*LoginPageLocators.PASSWORD_INPUT).send_keys("secret_sauce")
+    driver.find_element(*LoginPageLocators.LOGIN_BUTTON).click()
+    
+
+    assert "Swag Labs" in driver.title, "El título 'Swag Labs' no se encontró"
+    
+
+    lista_de_productos = driver.find_elements(*InventoryPageLocators.INVENTORY_ITEMS)
+    assert len(lista_de_productos) > 0, "No se encontraron productos en la página"
+  
+    nombre = driver.find_element(*InventoryPageLocators.FIRST_ITEM_NAME).text
+    precio = driver.find_element(*InventoryPageLocators.FIRST_ITEM_PRICE).text
+    
+    print(f"\nINFO: Primer producto: {nombre}, Precio: {precio}")
+    
+    assert nombre != "", "El primer producto no tiene nombre"
+    assert precio != "", "El primer producto no tiene precio"
