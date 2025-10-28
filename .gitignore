@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+.pytest_cache/
+*.pyc
+venv/
+
+# Logs y Drivers
+*.log
+drivers/
+
+# Reportes generados
+*.html
